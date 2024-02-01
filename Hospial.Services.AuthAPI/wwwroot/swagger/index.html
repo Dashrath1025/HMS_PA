@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Swagger UI</title>
+    <!-- Include any necessary stylesheets -->
+    <link rel="stylesheet" type="text/css" href="swagger-ui.css" />
+</head>
+<body>
+    <div id="swagger-ui"></div>
+
+    <!-- Include Swagger UI JavaScript -->
+    <script src="swagger-ui-bundle.js"></script>
+    <script src="swagger-ui-standalone-preset.js"></script>
+
+    <script>
+        // Custom JavaScript for handling login form submission
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.getElementById('loginForm');
+
+            loginForm.addEventListener('submit', async function(event) {
+                event.preventDefault();
+
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+
+                try {
+                    const response = await fetch('/api/auth/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ username, password })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        // Store token in localStorage upon successful login
+                        localStorage.setItem('token', data.token);
+                        // Redirect or perform other actions
+                    } else {
+                        // Handle login failure
+                    }
+                } catch (error) {
+                    console.error('Error during login:', error);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
