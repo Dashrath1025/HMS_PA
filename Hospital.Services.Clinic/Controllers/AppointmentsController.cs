@@ -20,7 +20,7 @@ namespace Hospital.Services.Clinic.Controllers
         }
 
 
-     //   [Authorize(Roles = "Admin")]
+        //   [Authorize(Roles = "Admin")]
         [HttpGet("GetAppointments")]
         public async Task<IEnumerable<PatientAppointments>> GetAppointmentAsync()
         {
@@ -31,30 +31,23 @@ namespace Hospital.Services.Clinic.Controllers
         [HttpPost("Add")]
         public async Task<IActionResult> AddAppointment([FromBody] PatientAppointmentsDto appointmentDto)
         {
-            if (_patientAppointment.IsPatientAlreadyScheduled(appointmentDto.Pid, appointmentDto.AppointmentDate))
+
+            var appointmentEntity = _mapper.Map<PatientAppointments>(appointmentDto);
+            appointmentEntity.Status = "Pending";
+            var result = await _patientAppointment.AddPatientAppointment(appointmentEntity);
+
+            if (result.Success)
             {
-
-                if (_patientAppointment.IsSerialNoAlreadyAssigned(0,appointmentDto.SerialNo))
-                {
-                    var appointmentEntity = _mapper.Map<PatientAppointments>(appointmentDto);
-                    appointmentEntity.Status = "Pending";
-                    var result= await _patientAppointment.AddPatientAppointment(appointmentEntity);
-
-                    if (result.Success)
-                    {
-                        return Ok(result);
-                    }
-                    return BadRequest(new { message = "somthing went wrong" });
-                }
-
-                return BadRequest(new { success = false, Message = "Serial No is already assigned to another appointment." });
+                return Ok(result);
             }
-            return BadRequest(new { success = false, Message = "This Patient already has an appointment Schedule for the selected date." });
 
+            return BadRequest(result.Message);
         }
 
+
+
         [HttpPut("Update")]
-        public async Task<IActionResult> UpdateAppointment(int Id,[FromBody] PatientAppointmentsDto appointmentDto)
+        public async Task<IActionResult> UpdateAppointment(int Id, [FromBody] PatientAppointmentsDto appointmentDto)
         {
             if (!ModelState.IsValid)
             {
@@ -65,23 +58,21 @@ namespace Hospital.Services.Clinic.Controllers
 
             if (existingAppointment != null)
             {
-                if (_patientAppointment.IsPatientAlreadyScheduled(appointmentDto.Pid, appointmentDto.AppointmentDate))
+                var appointmentEntity = _mapper.Map<PatientAppointments>(appointmentDto);
+                appointmentEntity.Id = Id;
+                var result = await _patientAppointment.UpdatePatientAppointment(appointmentEntity);
+                 
+                if (result.Success)
                 {
-                      var map =  _mapper.Map(appointmentDto, existingAppointment);
-                    if (_patientAppointment.IsSerialNoAlreadyAssigned(map.Id, map.SerialNo))
-                    {
-                        await _patientAppointment.UpdatePatientAppointment(existingAppointment);
-                        return Ok(new { Message = "Appointment updated successfully." });
-                    }
-                    return BadRequest(new { success = false, Message = "Serial No is already assigned to another appointment." });
+                    return Ok(result);
+
                 }
-                return BadRequest(new { success = false, Message = "This Patient already has an appointment Schedule for the selected date." });
-
+                return BadRequest(result.Message);
             }
-
-            return NotFound(new { Message = "Appointment not found." });
+            return NotFound(new Result { Success = false, Message = "Appointment not found." });
         }
 
+        
         [HttpDelete("Delete")]
         public async Task<ActionResult> DeleteAppointment(int appointmentId)
         {
@@ -110,7 +101,7 @@ namespace Hospital.Services.Clinic.Controllers
             return NotFound(new { Message = "Appointment not found." });
         }
 
-        [HttpPatch("UpdateStatus")]
+        [HttpPost("UpdateStatus")]
         public async Task<IActionResult> UpdateStatus(int appointmentId, string newStatus)
         {
             try
@@ -138,6 +129,44 @@ namespace Hospital.Services.Clinic.Controllers
                 return StatusCode(500, $"Internal Server Error: {ex.Message}");
             }
         }
+
+        [HttpGet("GetAppointmentByPatientId")]
+        public async Task<ActionResult<IEnumerable<PatientAppointments>>> GetAppointmentsByPatientId(int patientId)
+        {
+            try
+            {
+                var appointments = await _patientAppointment.GetAppointmentByPatientId(patientId);
+                if (appointments == null || appointments.Count == 0)
+                {
+                    return NotFound("No appointments found for the given patient ID.");
+                }
+
+                return Ok(appointments);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+        [HttpGet("GetAppointmentByDoctorId")]
+        public async Task<ActionResult<IEnumerable<PatientAppointments>>> GetAppointmentsByDoctorId(int doctorId)
+        {
+            try
+            {
+                var appointments = await _patientAppointment.GetAppointmentByDoctorId(doctorId);
+                if (appointments == null || appointments.Count == 0)
+                {
+                    return NotFound("No appointments found for the given Dcotor ID.");
+                }
+
+                return Ok(appointments);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
 
 
     }

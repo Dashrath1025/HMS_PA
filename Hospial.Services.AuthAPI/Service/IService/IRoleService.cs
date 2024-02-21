@@ -1,4 +1,5 @@
-﻿using Hospital.Services.AuthAPI.Models.Dto;
+﻿using Hospital.Services.AuthAPI.Models;
+using Hospital.Services.AuthAPI.Models.Dto;
 
 namespace Hospital.Services.AuthAPI.Service.IService
 {
@@ -9,11 +10,6 @@ namespace Hospital.Services.AuthAPI.Service.IService
         Task<Result> CreateRoleAsync(string roleName);
         Task<Result> UpdateRoleAsync(RoleDTO roleDTO);
         Task<Result> DeleteRoleAsync(string roleId);
-        Task<RoleDTO> GetRoleByIdAsync(string roleId);
-        Task<IEnumerable<UserRoleDTO>> GetUsersWithRolesAsync();
-        Task<Result> GetRoleNameByUserIdAsync(string userId);
-        Task<Result> AssignRoleAsync(string userEmail, string roleName);
-        Task<Result> LockUnlockUserAsync(string userId);
         Task<RoleDTO> GetRoleByid(string roleId);
     }
 

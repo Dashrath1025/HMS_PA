@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Hospital.Services.BedAPI.Migrations;
 using Hospital.Services.BedAPI.Models;
 using Hospital.Services.BedAPI.Models.DTO;
 using Hospital.Services.BedAPI.Services;
@@ -24,7 +25,7 @@ namespace Hospital.Services.BedAPI.Controllers
         }
 
 
-        [HttpGet("GetBedAllotment")]
+       [HttpGet("GetBedAllotment")]
         public async Task<IEnumerable<BedAllotment>> GetAllBedAllotments()
         {
             return await _bedAllotment.GetAllBedAllotments();
@@ -105,6 +106,24 @@ namespace Hospital.Services.BedAPI.Controllers
             }
 
             return Ok(result);
+        }
+
+        [HttpGet("GetById")]
+
+        public async Task<IActionResult> GetBedById(int id)
+        {
+            try
+            {
+                // Call the service method to get bed allotments with patients
+                var bedAllotmentsWithPatients = await _bedAllotment.GetBedAllotmentsWithPatientsById(id);
+
+                return Ok(bedAllotmentsWithPatients);
+            }
+            catch (Exception ex)
+            {
+                // Log or handle exceptions
+                return StatusCode(500, $"Internal Server Error: {ex.Message}");
+            }
         }
     }
 }

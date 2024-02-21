@@ -114,6 +114,30 @@ namespace Hospital.Services.Clinic.Controllers
             }
         }
 
+        [HttpGet("GetDoctorProfile")]
+
+        public async Task<IActionResult> GetDoctorById(string Id)
+        {
+            try
+            {
+                var doctor = await _doctorService.GetByDoctor(Id);
+
+                if (doctor != null)
+                {
+                    return Ok(doctor);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Error = "Internal Server Error" });
+            }
+        }
+
+
         [HttpPut("UpdateProfile")]
 
         public async Task<IActionResult> UpdateProfile(int dId, [FromBody] UpdateDoctorProfileDTO updateDoctorProfileDTO)

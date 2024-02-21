@@ -22,6 +22,26 @@ namespace Hospital.Services.Clinic.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet("GetPrescription")]
+        public async Task<ActionResult<IEnumerable<Prescription>>> GetPrescriptions()
+        {
+            var prescriptions = await _precriptionService.GetPrescription();
+            return Ok(prescriptions);
+        }
+
+        [HttpGet("GetById")]
+        public async Task<ActionResult<Prescription>> GetPrescriptionById(string prescriptionId)
+        {
+            var prescription = await _precriptionService.GetPrescriptionById(prescriptionId);
+
+            if (prescription == null)
+            {
+                return NotFound(); // Returns 404 Not Found
+            }
+
+            return Ok(prescription); // Returns 200 OK with the prescription object
+        }
+
         [HttpPost("Add")]
 
         public async Task<IActionResult> AddPrescription([FromBody] PrescriptionDTO prescriptionDTO)
@@ -54,10 +74,9 @@ namespace Hospital.Services.Clinic.Controllers
             }
         }
 
-
         [HttpPut("Update")]
 
-        public async Task<IActionResult> UpdatePrescription(Guid id,[FromBody] PrescriptionDTO prescriptionDTO)
+        public async Task<IActionResult> UpdatePrescription(Guid id, [FromBody] PrescriptionDTO prescriptionDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -99,5 +118,47 @@ namespace Hospital.Services.Clinic.Controllers
 
             return NotFound(result);
         }
+
+        [HttpGet("GetByPatient")]
+        public async Task<ActionResult<List<Prescription>>> GetPrescriptionsByPatient(string patientId)
+        {
+            try
+            {
+                var prescriptions = await _precriptionService.GetPrescriptionsByPatient(patientId);
+
+                if (prescriptions == null || prescriptions.Count == 0)
+                {
+                    return NotFound(); // Return 404 Not Found if no prescriptions found for the patient
+                }
+
+                return Ok(prescriptions); // Return 200 OK with prescriptions
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}"); // Return 500 Internal Server Error for unexpected errors
+            }
+        }
+
+        [HttpGet("GetByDoctor")]
+        public async Task<ActionResult<List<Prescription>>> GetPrescriptionsByDoctor(string doctorId)
+        {
+            try
+            {
+                var prescriptions = await _precriptionService.GetPrescriptionsByDoctor(doctorId);
+
+                if (prescriptions == null || prescriptions.Count == 0)
+                {
+                    return NotFound(); // Return 404 Not Found if no prescriptions found for the patient
+                }
+
+                return Ok(prescriptions); // Return 200 OK with prescriptions
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}"); // Return 500 Internal Server Error for unexpected errors
+            }
+        }
+
+
     }
 }

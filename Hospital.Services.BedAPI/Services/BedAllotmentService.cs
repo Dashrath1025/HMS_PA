@@ -61,8 +61,9 @@ namespace Hospital.Services.BedAPI.Services
         }
 
         public async Task<BedAllotment> GetBedAllotmentById(int id)
-        {
+         {
             return await _db.BedAllotments
+                .Include(d => d.Beds.BedCategory)
            //.Include(ba => ba.patient)
            //.Include(ba => ba.BedCategory)
            //.Include(ba => ba.Beds)
@@ -110,6 +111,40 @@ namespace Hospital.Services.BedAPI.Services
             return _db.BedAllotments.Any(pa => pa.Pid == patientId);
         }
 
+
+
+        public async Task<IEnumerable<BedAllotment>> GetBedAllotmentsWithPatientsById(int id)
+        {
+            try
+            {
+                var bedAllotments = await GetBedAllotmentById(id);
+
+                var result = new List<BedAllotment>();
+
+
+                //foreach (var bedAllotment in bedAllotments)
+                //{
+                //    var patient = await GetPatientDetails(bedAllotment.Pid);
+
+                //    bedAllotment.patient = patient;
+
+                //    result.Add(bedAllotment);
+                //}
+
+                var patient = await GetPatientDetails(bedAllotments.Pid);
+                bedAllotments.patient = patient;
+
+                result.Add(bedAllotments);
+
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error fetching Bedallotment details", ex);
+            }
+        }
+        
         public async Task<IEnumerable<BedAllotment>> GetBedAllotmentsWithPatients()
         {
             try
@@ -144,10 +179,10 @@ namespace Hospital.Services.BedAPI.Services
 
                 var accessToken = _httpContextAccessor.HttpContext.Request.Cookies["token"];
 
-                if (string.IsNullOrEmpty(accessToken))
-                {
-                    return null;
-                }
+                //if (string.IsNullOrEmpty(accessToken))
+                //{
+                //    return null;
+                //}
 
                 var clinicApiUrl = _configuration.GetValue<string>("GetClinicAPI:url");
 

@@ -15,12 +15,15 @@ namespace Hospital.Services.BedAPI.Services.IServices
         bool IsPatientAlreadyAllocated(int patientId);
 
         Task<IEnumerable<BedAllotment>> GetBedAllotmentsWithPatients();
+
+        Task<IEnumerable<BedAllotment>> GetBedAllotmentsWithPatientsById(int id);
         Task<Patient> GetPatientDetails(int patientId);
     }
     public class BedAllotmentWithPatientDetails
     {
         public BedAllotment BedAllotment { get; set; }
         public Patient PatientDetails { get; set; }
+
     }
 
 }

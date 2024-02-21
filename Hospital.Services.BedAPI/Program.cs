@@ -5,7 +5,6 @@ using Hospital.Services.BedAPI.Services;
 using Hospital.Services.BedAPI.Services.IServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -97,14 +96,16 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
 app.UseCors(op =>
 {
     op.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
 });
 
-
 app.UseHttpsRedirection();
+
 app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllers();

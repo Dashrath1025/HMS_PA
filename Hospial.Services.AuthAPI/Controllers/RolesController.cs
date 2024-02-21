@@ -8,7 +8,7 @@ namespace Hospital.Services.AuthAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-   // [Authorize]
+    // [Authorize]
     public class RolesController : ControllerBase
     {
         private readonly IRoleService _roleService;
@@ -76,51 +76,7 @@ namespace Hospital.Services.AuthAPI.Controllers
         }
 
 
-        [HttpGet("getuserRoles")]
 
-        public async Task<IActionResult> GetUsersWithRoles()
-        {
-            var userDTOList = await _roleService.GetUsersWithRolesAsync();
-            return Ok(userDTOList);
-        }
-
-        [HttpGet("getrolename/{userId:guid}")]
-
-        public async Task<IActionResult> GetRoleNameByUserId([FromRoute] string userId)
-        {
-            var roleName = await _roleService.GetRoleNameByUserIdAsync(userId);
-            return roleName != null ? Ok(roleName) : NotFound("Role not found for the user");
-
-        }
-
-        [HttpPost("assignrole")]
-
-        public async Task<IActionResult> AssignRole(string userEmail, string roleName)
-        {
-            var result = await _roleService.AssignRoleAsync(userEmail, roleName);
-
-            if (result.Success)
-            {
-                return Ok(result.Message);
-            }
-
-            return BadRequest(result.Message);
-        }
-
-
-        [HttpPost("lockunlock")]
-
-        public async Task<IActionResult> LockUnlockUser(string userId)
-        {
-            var result = await _roleService.LockUnlockUserAsync(userId);
-
-            if (result.Success)
-            {
-                return Ok(result.Message);
-            }
-
-            return NotFound(result.Message);
-        }
 
         [HttpGet("GetById/{id:guid}")]
 
@@ -134,5 +90,7 @@ namespace Hospital.Services.AuthAPI.Controllers
             }
             return Ok(result);
         }
+
+
     }
 }

@@ -13,8 +13,8 @@ namespace Hospital.Services.Clinic.Services.IService
         Task<Result> DeletePatientAppointment(int pId);
 
         Task<PatientAppointments> GetAppointmentIdAsync(int pId);
+        Task<List<PatientAppointments>> GetAppointmentByPatientId(int Id);
+        Task<List<PatientAppointments>> GetAppointmentByDoctorId(int Id);
 
-        bool IsPatientAlreadyScheduled(int patientId, DateTime appointmentDate);
-        bool IsSerialNoAlreadyAssigned(int appointmentId,string serialNo);
     }
 }

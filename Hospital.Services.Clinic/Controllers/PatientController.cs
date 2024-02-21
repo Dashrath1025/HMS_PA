@@ -68,6 +68,8 @@ public class PatientController : ControllerBase
 
     [HttpPut("Update")]
     public async Task<IActionResult> UpdatePatient([FromBody] Patient patient)
+    
+    
     {
 
         var result = await _patientService.UpdatePatientAsync(patient);
@@ -122,6 +124,29 @@ public class PatientController : ControllerBase
         }
     }
 
+    [HttpGet("GetPatientProfile")]
+
+    public async Task<IActionResult> GetPatientById(string Id)
+    {
+        try
+        {
+            var patient = await _patientService.GetByPatient(Id);
+
+            if (patient != null)
+            {
+                return Ok(patient);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { Error = "Internal Server Error" });
+        }
+    }
+
     [HttpPut("UpdateProfile")]
 
     public async Task<IActionResult> UpdateProfile(int pid, [FromBody] UpdatePatientProfileDTO updatePatientProfileDTO)
@@ -143,7 +168,5 @@ public class PatientController : ControllerBase
 
         }
     }
-
-
 
 }

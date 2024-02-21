@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Hospital.Services.Clinic.Models
 {
@@ -7,7 +8,7 @@ namespace Hospital.Services.Clinic.Models
         public Guid Id { get; set; }
         // public string DoctorId { get; set; }
 
-        [Required(ErrorMessage ="Appointment is required")]
+        [Required(ErrorMessage = "Appointment is required")]
         public int appointmentId { get; set; }
 
         [Required(ErrorMessage = "Symptoms is required")]
@@ -19,7 +20,11 @@ namespace Hospital.Services.Clinic.Models
 
         //[DataType(DataType.DateTime)]
         //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime CheckupDate { get; set; } 
+        public DateTime CheckupDate { get; set; }
+
+        [ForeignKey("appointmentId")]
+
+        public PatientAppointments PatientAppointments { get; set; }
 
     }
 }

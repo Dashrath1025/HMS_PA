@@ -94,6 +94,20 @@ namespace Hospital.Services.BedAPI.Controllers
             return Ok(result);
         }
 
+        [HttpGet("GetById")]
+
+        public async Task<IActionResult> GetBedById(int id)
+        {
+            var bed = await _bed.GetBedById(id);
+
+            if (bed == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(bed);
+        }
+
 
     }
 }

@@ -12,6 +12,7 @@ namespace Hospital.Services.Clinic.Services.IService
         Task<Result> DeleteDoctorAsync(int doctorId);
         Task<Doctor> GetDoctorByIdAsync(int doctorId);
         Task<string> RegisterService(PatientDTO patientDTO);
+        Task<Doctor> GetByDoctor(string pId);
         Task<Result> UpdateProfile(int dId,UpdateDoctorProfileDTO updateDoctorProfileDTO);
 
 

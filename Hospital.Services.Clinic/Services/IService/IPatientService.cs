@@ -15,6 +15,7 @@ namespace Hospital.Services.Clinic.Services.IService
         Task<string> RegisterService(PatientDTO patientDTO);
         Task<Patient> GetPatientByIdAsync(int patientId);
 
+        Task<Patient> GetByPatient(string pId);
         Task<Result> UpdateProfile(int pId, UpdatePatientProfileDTO updatePatientProfileDTO);
 
     }

@@ -63,10 +63,11 @@ namespace Hospital.Services.Clinic.Services
                 else
                 {
                     // Handle the error
-                    return $"Error: {httpResponseMessage.StatusCode} - {httpResponseMessage.ReasonPhrase}";
+                    return $"Error: {httpResponseMessage.Content}";
                 }
             }
         }
+
 
         public async Task<Result> DeletePatientAsync(int patientId)
         {
@@ -111,10 +112,14 @@ namespace Hospital.Services.Clinic.Services
 
             var patientExist = await _db.Patients.FirstOrDefaultAsync(u => u.Id == patient.Id);
 
+          
+
             if (patientExist == null)
             {
                 return new Result { Success = false, Message = "Patient not found" };
             }
+
+            patient.PatientId = patientExist.PatientId;
 
             var existingUser = await _userManager.FindByIdAsync(patientExist.PatientId);
 
@@ -153,6 +158,12 @@ namespace Hospital.Services.Clinic.Services
             await _db.SaveChangesAsync();
 
             return new Result { Success = true, Message = "Profile Updated Successfully" };
+        }
+
+        public async Task<Patient> GetByPatient(string pId)
+        {
+            var patient= await _db.Patients.SingleOrDefaultAsync(p => p.PatientId == pId);
+            return patient;
         }
     }
 }

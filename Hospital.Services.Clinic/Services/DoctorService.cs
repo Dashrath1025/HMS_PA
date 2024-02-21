@@ -60,6 +60,12 @@ namespace Hospital.Services.Clinic.Services
             return new Result { Success = true, Message = "Doctor deleted successfully" };
         }
 
+        public async Task<Doctor> GetByDoctor(string dId)
+        {
+            var doctor = await _db.Doctors.SingleOrDefaultAsync(p => p.DoctorId == dId);
+            return doctor;
+        }
+
         public async Task<Doctor> GetDoctorByIdAsync(int doctorId)
         {
             return await _db.Doctors.FindAsync(doctorId);
@@ -74,7 +80,7 @@ namespace Hospital.Services.Clinic.Services
 
 
         {
-            var accessToken = _httpContextAccessor.HttpContext.Request.Cookies["token"];
+          //  var accessToken = _httpContextAccessor.HttpContext.Request.Cookies["token"];
 
             var authUrl = _configuration.GetValue<string>("GetAuthAPI:url");
 
@@ -83,7 +89,7 @@ namespace Hospital.Services.Clinic.Services
             using(HttpClient httpClient  = _httpClientFactory.CreateClient())
 
             {
-                httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
+              //  httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
                 var content= new StringContent(JsonConvert.SerializeObject(patientDTO),Encoding.UTF8, "application/json");
 
                 HttpResponseMessage httpResponseMessage = await httpClient.PostAsync(fullurl, content);
@@ -109,7 +115,7 @@ namespace Hospital.Services.Clinic.Services
                 return new Result { Success = false, Message = "Doctor not found" };
             }
 
-
+            existingDoctor.DoctorId = existingDoctorPresent.DoctorId;
             var existingUser = await _userManager.FindByIdAsync(existingDoctorPresent.DoctorId);
 
             if (existingUser != null)
