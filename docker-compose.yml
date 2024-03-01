@@ -1,0 +1,43 @@
+version: '3.4'
+
+networks:
+    myAppNetwork:     
+
+services:
+   SqlServerDb:
+     image:  mcr.microsoft.com/mssql/server:2017-latest
+     networks:
+       - myAppNetwork
+     volumes:
+       - data:/var/opt/mssql
+      
+
+   hospital.services.authapi:
+     image: ${DOCKER_REGISTRY-}authapi
+     build:
+      context: .
+      dockerfile: Hospial.Services.AuthAPI/Dockerfile
+     networks:
+       - myAppNetwork
+
+   
+   hospital.services.clinicapi:
+     image: ${DOCKER_REGISTRY-}clinicapi
+     build:
+      context: .
+      dockerfile: Hospital.Services.Clinic/Dockerfile
+     networks:
+       - myAppNetwork
+
+   hospital.services.bedapi:
+     image:  ${DOCKER_REGISTRY-}bedapi
+     build:
+      context: .
+      dockerfile: Hospital.Services.BedAPI/Dockerfile
+     networks:
+       - myAppNetwork
+volumes:
+  data:   
+
+
+

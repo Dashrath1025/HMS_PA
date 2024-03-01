@@ -4,20 +4,19 @@ FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 EXPOSE 80
 
-
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-ENV ASPNETCORE_ENVIRONMENT = Development
 WORKDIR /src
-COPY ["Hospial.Services.AuthAPI/Hospital.Services.AuthAPI.csproj", "Hospial.Services.AuthAPI/"]
-RUN dotnet restore "Hospial.Services.AuthAPI/Hospital.Services.AuthAPI.csproj"
+ENV ASPNETCORE_ENVIRONMENT = Development
+COPY ["Hospial.Services.AuthAPI/Hospial.Services.AuthAPI.csproj", "Hospial.Services.AuthAPI/"]
+RUN dotnet restore "Hospial.Services.AuthAPI/Hospial.Services.AuthAPI.csproj"
 COPY . .
 WORKDIR "/src/Hospial.Services.AuthAPI"
-RUN dotnet build "Hospital.Services.AuthAPI.csproj" -c Release -o /app/build
+RUN dotnet build "Hospial.Services.AuthAPI.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Hospital.Services.AuthAPI.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "Hospial.Services.AuthAPI.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Hospital.Services.AuthAPI.dll","--environment=Development"]
+ENTRYPOINT ["dotnet", "Hospial.Services.AuthAPI.dll","--environment=Development"]
