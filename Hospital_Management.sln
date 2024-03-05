@@ -13,9 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hospital.Services.BedAPI", 
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{ACB40D26-1961-4F72-B667-65F7F8DE1535}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Xunit_Test", "Xunit_Test", "{8D6AFF92-D296-4CC7-B3F4-9EB6121B466C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hospital.Services.BedAPI.Tests", "..\Hospital.Services.BedAPI.Tests\Hospital.Services.BedAPI.Tests.csproj", "{4D071B9A-FE6D-419B-8539-443512B713AC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hospital.Services.Bedapi.Tests", "Hospital.Services.Bedapi.Tests\Hospital.Services.Bedapi.Tests.csproj", "{2CB7B3A2-83E5-404D-870C-8187579132A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,10 +37,10 @@ Global
 		{ACB40D26-1961-4F72-B667-65F7F8DE1535}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACB40D26-1961-4F72-B667-65F7F8DE1535}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ACB40D26-1961-4F72-B667-65F7F8DE1535}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4D071B9A-FE6D-419B-8539-443512B713AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4D071B9A-FE6D-419B-8539-443512B713AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4D071B9A-FE6D-419B-8539-443512B713AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4D071B9A-FE6D-419B-8539-443512B713AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CB7B3A2-83E5-404D-870C-8187579132A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CB7B3A2-83E5-404D-870C-8187579132A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CB7B3A2-83E5-404D-870C-8187579132A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CB7B3A2-83E5-404D-870C-8187579132A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,8 +49,6 @@ Global
 		{9DC729CD-2584-4569-8567-E4E925ABA9DB} = {9D9D69DA-7F55-4D51-9CE6-BB510A5E9291}
 		{A07D27DF-35F0-4041-BD63-66B0416A3545} = {9D9D69DA-7F55-4D51-9CE6-BB510A5E9291}
 		{DAD829C5-94F7-45A5-9BC6-9427C9F234BF} = {9D9D69DA-7F55-4D51-9CE6-BB510A5E9291}
-		{8D6AFF92-D296-4CC7-B3F4-9EB6121B466C} = {9D9D69DA-7F55-4D51-9CE6-BB510A5E9291}
-		{4D071B9A-FE6D-419B-8539-443512B713AC} = {8D6AFF92-D296-4CC7-B3F4-9EB6121B466C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {47D50D33-96B8-46B6-B467-C0CB535272B5}

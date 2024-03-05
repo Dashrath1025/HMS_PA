@@ -82,7 +82,7 @@ namespace Hospital.Services.BedAPI.Controllers
         }
 
         [HttpDelete("Delete")]
-        public async Task<ActionResult<Result>> DeleteBed(int id)
+        public async Task<IActionResult> DeleteBed(int id)
         {
             var result = await _bed.DeleteBed(id);
 

@@ -99,7 +99,7 @@ namespace Hospital.Services.BedAPI.Controllers
 
             if (result.Success)
             {
-                return Ok(new { result.Message });
+                return Ok(result);
             }
 
             else

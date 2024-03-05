@@ -74,7 +74,7 @@ namespace Hospital.Services.BedAPI.Controllers
         }
 
         [HttpPut("Update")]
-        public async Task<ActionResult<Result>> UpdateBedAllotment(int id , [FromBody] BedAllotmentDTO bedAllotmentDTO,bool released)
+        public async Task<IActionResult> UpdateBedAllotment(int id , [FromBody] BedAllotmentDTO bedAllotmentDTO,bool released)
         {
             if (!ModelState.IsValid)
             {
@@ -96,13 +96,13 @@ namespace Hospital.Services.BedAPI.Controllers
         }
 
         [HttpDelete("Delete")]
-        public async Task<ActionResult<Result>> DeleteBedAllotment(int id)
+        public async Task<IActionResult> DeleteBedAllotment(int id)
         {
             var result = await _bedAllotment.DeleteBedAllotment(id);
 
             if (!result.Success)
             {
-                return NotFound();
+                return NotFound(result.Message);
             }
 
             return Ok(result);
